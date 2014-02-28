@@ -1,4 +1,4 @@
-Junior-Design
+Junior-Design-Project
 =============
 
 Project for my Junior Design class at Binghamton University (Spring 2014).
