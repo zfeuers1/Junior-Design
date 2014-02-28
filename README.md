@@ -1,0 +1,6 @@
+Junior-Design
+=============
+
+Project for my Junior Design class at Binghamton University (Spring 2014).
+
+Look at Project Description for more details.
