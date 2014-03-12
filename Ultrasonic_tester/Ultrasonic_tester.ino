@@ -34,7 +34,6 @@
   
   void loop() {
     
-    
     digitalWrite(VCC,HIGH);
     //Serial.print("Sensor 1: \n");
     sense(sonar1);
