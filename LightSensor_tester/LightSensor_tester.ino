@@ -21,8 +21,7 @@ void setup(){
 
 void loop(){
 
-
-  LeftSensor = analogRead(LSI);//make sure you want will be outputing voltage
+  LeftSensor = analogRead(LSI);//make sure you want will be outputing voltage from sensor
   RightSensor = analogRead(RSI);//between 5mv to 5v or this wont work
   FrontSensor = analogRead(FSI);
   
