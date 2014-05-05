@@ -30,6 +30,7 @@
 #include <NewPing.h>
 #include <PushButtonSystem.h>
 #include <LightSensorSystem.h>
+#include <IRCommSystem.h>
 //----------------------------------------------------------------------------
 // Movement Setup
 //
@@ -83,10 +84,18 @@ LightSensorSystem LSensors(FL, FR, BL, BR);
 PushButtonSystem PushButtons(LPB, MPB, RPB);
 //
 //----------------------------------------------------------------------------
+// IR Communication Setup
+//
+#define modPin 13
+//
+IRCommSystem IR(modPin);
+//
+//----------------------------------------------------------------------------
 // Main Robot Control
 //
 void setup(){
   Serial.begin(9600);
+  Serial2.begin(300);
 }
 void loop(){
   
@@ -117,7 +126,7 @@ void loop(){
   //
   //-----------------------------------------------------
   //-----------------------------------------------------
-  // Play game for 3 min, Then stop.
+  // Play game for 3 min.
   unsigned long startTime = millis();
   unsigned long time = 0;
   

@@ -210,13 +210,13 @@ void NewPing::timer_ms_cntdwn() {
 }
 
 
-#if defined (__AVR_ATmega32U4__) // Use Timer4 for ATmega32U4 (Teensy/Leonardo).
+/*#if defined (__AVR_ATmega32U4__) // Use Timer4 for ATmega32U4 (Teensy/Leonardo).
 ISR(TIMER4_OVF_vect) {
 #else
 ISR(TIMER2_COMPA_vect) {
 #endif
 	if(intFunc) intFunc(); // If wrapped function is set, call it.
-}
+}*/
 
 
 // ---------------------------------------------------------------------------

@@ -1,0 +1,24 @@
+###################################
+# Syntax Coloring Map For IRCommSystem
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+IRCommSystem	KEYWORD1
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+isRecieving	KEYWORD2
+read	KEYWORD2
+write	KEYWORD2
+recievedIR	KEYWORD2
+transmitIR	KEYWORD2
+capture	KEYWORD2
+
+###################################
+# Constants (LITERAL1)
+###################################
