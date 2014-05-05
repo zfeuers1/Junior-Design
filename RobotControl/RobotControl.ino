@@ -94,8 +94,8 @@ IRCommSystem IR(modPin);
 // Main Robot Control
 //
 void setup(){
-  Serial.begin(9600);
-  Serial2.begin(300);
+  Serial.begin(9600);//set up for printing to console
+  Serial2.begin(300);//set baud rate of Serial2 port for IR communication
 }
 void loop(){
   
