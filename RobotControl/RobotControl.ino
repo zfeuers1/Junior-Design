@@ -100,7 +100,7 @@ void setup(){
 void loop(){
   
   //-----------------------------------------------------
-  // Wait until middle button is pressed to begin
+  // Wait until right button is pressed to begin
   //
   bool start = false;
   while(!start){
