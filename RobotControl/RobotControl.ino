@@ -89,7 +89,54 @@ void setup(){
   Serial.begin(9600);
 }
 void loop(){
-
+  
+  //-----------------------------------------------------
+  // Wait until middle button is pressed to begin
+  //
+  bool start = false;
+  while(!start){
+    PushButtons.readIfPressed();
+    start = PushButtons.Right;
+  }
+  //
+  //-----------------------------------------------------
+  //-----------------------------------------------------
+  // Wait until pen is lifted to begin game
+  //
+  bool inPen = true;
+  float lastDistanceFront;
+  USSensors.getDistances();
+  lastDistanceFront = USSensors.distanceFront;
+  
+  while(inPen){
+    USSensors.getDistances();
+    if((USSensors.distanceFront - lastDistanceFront) > 5){
+      inPen = false;
+    }
+  }
+  //
+  //-----------------------------------------------------
+  //-----------------------------------------------------
+  // Play game for 3 min, Then stop.
+  unsigned long startTime = millis();
+  unsigned long time = 0;
+  
+  while((time - startTime) < 180000){//180000 ms = 3 min
+    //-----------------------------------------------------
+    // Game loop
+  
+  
+  
+  
+  
+  
+  
+    //
+    //-----------------------------------------------------
+    time = millis();
+  }
+  //
+  //-----------------------------------------------------
 }
 //
 //----------------------------------------------------------------------------
