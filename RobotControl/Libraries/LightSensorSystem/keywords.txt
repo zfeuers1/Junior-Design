@@ -1,0 +1,27 @@
+###################################
+# Syntax Coloring Map For LightSensorSystem
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+LightSensorSystem	KEYWORD1
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+readSensors	KEYWORD2
+sortSensors	KEYWORD2
+FrontRightSensor	KEYWORD2
+FrontBackSensor	KEYWORD2
+BackRightSensor	KEYWORD2
+BackLeftSensor	KEYWORD2
+calcDirection	KEYWORD2
+atBeacon	KEYWORD2
+degree	KEYWORD2
+
+###################################
+# Constants (LITERAL1)
+###################################

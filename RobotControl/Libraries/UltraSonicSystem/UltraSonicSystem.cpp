@@ -48,18 +48,22 @@ void UltraSonicSystem::getDistances(){
 
 	delay(50);                      // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
     unsigned int uS = leftSensor.ping(); // Send ping, get ping time in microseconds (uS).
-    Serial.print("Distance: ");
+    Serial.print("\nDistance Left: ");
     distanceLeft = uS / US_ROUNDTRIP_CM;
     distanceLeft = .393701 * distanceLeft; //inches
+    Serial.print(distanceLeft);
+    
     delay(50);
     unsigned int uS2 = rightSensor.ping(); // Send ping, get ping time in microseconds (uS).
-    Serial.print("Distance: ");
+    Serial.print("\nDistance Right: ");
     distanceRight = uS2 / US_ROUNDTRIP_CM;
     distanceRight = .393701 * distanceRight;
+    Serial.print(distanceRight);
+    
     delay(50);
     unsigned int uS3 = frontSensor.ping(); // Send ping, get ping time in microseconds (uS).
-    Serial.print("Distance: ");
+    Serial.print("\nDistance Front: ");
     distanceFront = uS3 / US_ROUNDTRIP_CM;
     distanceFront = .393701 * distanceFront;
-
+    Serial.print(distanceFront);
 }

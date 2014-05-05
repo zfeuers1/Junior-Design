@@ -1,0 +1,22 @@
+###################################
+# Syntax Coloring Map For PushButtonSystem
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+PushButtonSystem	KEYWORD1
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+readIfPressed	KEYWORD2
+Left	KEYWORD2
+Right	KEYWORD2
+Middle	KEYWORD2
+
+###################################
+# Constants (LITERAL1)
+###################################

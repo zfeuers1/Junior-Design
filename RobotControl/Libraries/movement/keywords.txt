@@ -1,0 +1,25 @@
+###################################
+# Syntax Coloring Map For movement
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+movement	KEYWORD1
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+setDirectionForward	KEYWORD2
+setDirectionBackward	KEYWORD2
+setDirectionTurnRight	KEYWORD2
+setDirectionTurnLeft	KEYWORD2
+moveAtSameRate	KEYWORD2
+turnXdegrees	KEYWORD2
+goXinches	KEYWORD2
+
+###################################
+# Constants (LITERAL1)
+###################################

@@ -29,6 +29,7 @@
 #include <UltraSonicSystem.h>
 #include <NewPing.h>
 #include <PushButtonSystem.h>
+#include <LightSensorSystem.h>
 //----------------------------------------------------------------------------
 // Movement Setup
 //
@@ -70,7 +71,7 @@ UltraSonicSystem USSensors(LTP, LEP, RTP, REP, FTP, FEP, maxDistance);
 #define BL A2//back left sensor
 #define BR A3
 //
-
+LightSensorSystem LSensors(FL, FR, BL, BR);
 //
 //----------------------------------------------------------------------------
 // Push Button Setup
@@ -88,7 +89,7 @@ void setup(){
   Serial.begin(9600);
 }
 void loop(){
-  
+
 }
 //
 //----------------------------------------------------------------------------

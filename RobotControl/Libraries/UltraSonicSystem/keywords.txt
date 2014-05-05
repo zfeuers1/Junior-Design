@@ -1,0 +1,25 @@
+###################################
+# Syntax Coloring Map For UltraSonicSystem
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+UltraSonicSystem	KEYWORD1
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+getDistances	KEYWORD2
+leftSensor	KEYWORD2
+rightSensor	KEYWORD2
+frontSensor	KEYWORD2
+distanceRight	KEYWORD2
+distanceLeft	KEYWORD2
+distanceFront	KEYWORD2
+
+###################################
+# Constants (LITERAL1)
+###################################

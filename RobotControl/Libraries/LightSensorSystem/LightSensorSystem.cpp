@@ -56,11 +56,11 @@ LightSensorSystem::LightSensorSystem(uint8_t LightSensorFrontLeftPin, uint8_t Li
 	_LightSensorBackLeftPin = LightSensorBackLeftPin;
 
 	sensorMaxConst = 1400; //change after testing
-	SensorArray = {0,0,0,0};
 	sensor1 = 10;//arbitrary number that is not part of array
 	sensor2 = 10;
 	sensor3 = 10;
 	sensor4 = 10;
+	equivFactor = 20;//change
 }
 
 //LightSensorSystem Methods
@@ -93,7 +93,7 @@ void LightSensorSystem::sortSensors(){
 
         	sensor4 = sensor3;
         	sensor3 = sensor2;
-        	sensor2 = sensor;
+        	sensor2 = sensor1;
         	sensor1 = i + 1;
         }else if(SensorArray[i] > temp2){
         	temp3 = temp2;
@@ -118,7 +118,116 @@ int LightSensorSystem::calcDirection(){
 	readSensors();
 	sortSensors();
 
+	int degree;
 
+	switch(sensor1){
+
+		case FRS:
+			switch(sensor2){
+		
+				case BRS:
+					if((FrontRightSensor - BackRightSensor) <= equivFactor){//basically the same
+						degree = 90;
+					}else{
+						degree = 45;
+					}
+					break;
+		
+				case FLS:
+					if((FrontRightSensor - FrontLeftSensor) <= equivFactor){//basically the same
+						degree = 0;
+					}else{
+						degree = 45;						
+					}
+					break;
+		
+				default:
+						degree = 45;
+					break;
+			}
+			break;
+		
+		case BRS:
+			switch(sensor2){
+		
+				case FRS:
+					if((BackRightSensor - FrontRightSensor) <= equivFactor){//basically the same
+						degree = 90;
+					}else{
+						degree = 135;
+					}
+					break;
+		
+				case BLS:
+					if((BackRightSensor - BackLeftSensor) <= equivFactor){//basically the same
+						degree = 180;
+					}else{
+						degree = 135;
+					}
+					break;
+		
+				default:
+					degree = 135;
+					break;
+			}
+			break;
+		
+		case FLS:
+			switch(sensor2){
+
+				case BLS:
+					if((FrontLeftSensor - BackLeftSensor) <= equivFactor){//basically the same
+						degree = -90;
+					}else{
+						degree = -45;
+					}
+					break;
+
+				case FRS:
+					if((FrontLeftSensor - FrontRightSensor) <= equivFactor){//basically the same
+						degree = 0;
+					}else{
+						degree = -45;
+					}
+					break;
+
+				default:
+					degree = -45;
+					break;
+			}
+
+			break;
+
+		case BLS:
+			switch(sensor2){
+
+				case BRS:
+					if((BackLeftSensor - BackRightSensor) <= equivFactor){//basically the same
+						degree = 180;
+					}else{
+						degree = -135;
+					}
+					break;
+
+				case FLS:
+					if((BackLeftSensor - FrontLeftSensor) <= equivFactor){//basically the same
+						degree = -90;
+					}else{
+						degree = -135;
+					}
+					break;
+
+				default:
+					degree = -135;
+					break;
+			}
+			break;
+		
+		default:
+			break;	
+	}
+
+	return degree;
 }
 
 bool LightSensorSystem::atBeacon(){
@@ -128,6 +237,7 @@ bool LightSensorSystem::atBeacon(){
 
 	if((FrontLeftSensor + FrontRightSensor) > sensorMaxConst){
 		return true;
+	}
 	else{
 		return false;
 	}

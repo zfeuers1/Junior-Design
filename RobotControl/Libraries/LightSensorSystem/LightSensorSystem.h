@@ -61,11 +61,18 @@ class LightSensorSystem{
 		int calcDirection();
 		bool atBeacon();
 		void sortSensors();
-	private:
+		
 		int FrontRightSensor;
 		int FrontLeftSensor;
 		int BackRightSensor;
 		int BackLeftSensor;
+
+		uint8_t sensor1;
+		uint8_t sensor2;
+		uint8_t sensor3;
+		uint8_t sensor4;
+	private:
+		
 		int SensorArray[4];
 
 		uint8_t _LightSensorFrontLeftPin;
@@ -73,11 +80,7 @@ class LightSensorSystem{
 		uint8_t _LightSensorBackLeftPin;
 		uint8_t _LightSensorBackRightPin;
 
-		uint8_t sensor1;
-		uint8_t sensor2;
-		uint8_t sensor3;
-		uint8_t sensor4;
-
+		int equivFactor;
 		int sensorMaxConst;
 };
 
