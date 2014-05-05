@@ -132,6 +132,7 @@
 class NewPing {
 	public:
 		NewPing(uint8_t trigger_pin, uint8_t echo_pin, int max_cm_distance = MAX_SENSOR_DISTANCE);
+		NewPing();
 		unsigned int ping();
 		unsigned int ping_in();
 		unsigned int ping_cm();

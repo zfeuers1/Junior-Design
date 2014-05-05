@@ -29,6 +29,8 @@ NewPing::NewPing(uint8_t trigger_pin, uint8_t echo_pin, int max_cm_distance) {
 }
 
 
+NewPing::NewPing(){}
+
 // ---------------------------------------------------------------------------
 // Standard ping methods
 // ---------------------------------------------------------------------------

@@ -1,8 +1,7 @@
 // ---------------------------------------------------------------------------
-// LightSensorSystem library v1.0
+// PushButtonSystem library v1.0
 //
 // Created by Zachary Feuerstein - zfeuers1@binghamton.edu
-// http://www.github.com/zfeuers1
 //
 // The MIT License (MIT)
 //
@@ -26,59 +25,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-// History:
-//
-// 04/17/2014 v1.0 -
-//		Constructor
-//		readSensors
-//		sortSensors
-// 04/28/2014 v1.1 -
-//		calcDirection
-//		atBeacon
-//
+// See "PushButtonSystem.h" for syntax, version history and more.
 // ---------------------------------------------------------------------------
+#include "Arduino.h"
+#include "PushButtonSystem.h"
 
+PushButtonSystem::PushButtonSystem(uint8_t LPB, uint8_t MPB, uint8_t RPB){
 
-#ifndef LightSensorSystem_h
-#define LightSensorSystem_h
+	pinMode(LPB, INPUT);
+	_LPB = LPB;
 
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include <Arduino.h>
-#else
-	#include <WProgram.h>
-	#include <pins_arduino.h>
-#endif
+	pinMode(MPB, INPUT);
+	_MPB = MPB;
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
+	pinMode(RPB, INPUT);
+	_RPB = RPB;
+}
 
-class LightSensorSystem{
+void PushButtonSystem::readIfPressed(){
 
-	public:
-		LightSensorSystem(uint8_t LightSensorFrontLeftPin, uint8_t LightSensorFrontRightPin,
-						uint8_t LightSensorBackLeftPin, uint8_t LightSensorBackRightPin);
-		void readSensors();
-		int calcDirection();
-		bool atBeacon();
-		void sortSensors();
-	private:
-		int FrontRightSensor;
-		int FrontLeftSensor;
-		int BackRightSensor;
-		int BackLeftSensor;
-		int SensorArray[4];
+	Left = !digitalRead(_LPB);
+	Right = !digitalRead(_RPB);
+	Middle = !digitalRead(_MPB);
 
-		uint8_t _LightSensorFrontLeftPin;
-		uint8_t _LightSensorFrontRightPin;
-		uint8_t _LightSensorBackLeftPin;
-		uint8_t _LightSensorBackRightPin;
+}
 
-		uint8_t sensor1;
-		uint8_t sensor2;
-		uint8_t sensor3;
-		uint8_t sensor4;
-
-		int sensorMaxConst;
-};
-
-#endif

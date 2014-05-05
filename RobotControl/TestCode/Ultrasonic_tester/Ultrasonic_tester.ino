@@ -27,11 +27,11 @@
     Serial.print(cm); // Convert ping time to distance in cm and print result (0 = outside set distance range)
     Serial.println(" cm");
     if(cm < 10 && cm > 0){
-      digitalWrite(LED,HIGH);
+      //digitalWrite(LED,HIGH);
        
   }
   else{
-      digitalWrite(LED,LOW);
+      //digitalWrite(LED,LOW);
   }
   
 }

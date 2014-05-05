@@ -55,7 +55,7 @@ LightSensorSystem::LightSensorSystem(uint8_t LightSensorFrontLeftPin, uint8_t Li
 	pinMode(LightSensorBackLeftPin, INPUT);
 	_LightSensorBackLeftPin = LightSensorBackLeftPin;
 
-	sensorMaxConst = 800; //change after testing
+	sensorMaxConst = 1400; //change after testing
 	SensorArray = {0,0,0,0};
 	sensor1 = 10;//arbitrary number that is not part of array
 	sensor2 = 10;
@@ -123,6 +123,12 @@ int LightSensorSystem::calcDirection(){
 
 bool LightSensorSystem::atBeacon(){
 
+	readSensors();
+	sortSensors();
 
-
+	if((FrontLeftSensor + FrontRightSensor) > sensorMaxConst){
+		return true;
+	else{
+		return false;
+	}
 }

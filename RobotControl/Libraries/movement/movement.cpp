@@ -75,7 +75,7 @@ movement::movement(uint8_t RightMotorDirectionPin, uint8_t RightMotorEnablePin,
 	lastQuadR = 0;
 	lastQuadL = 0;
 	distConstTurn = 1;//change later
-	distConstStraight = 1;//change later
+	distConstStraight = 100;//change later
 
 }
 
@@ -99,14 +99,14 @@ void movement::turnOffMotors(){
 
 void movement::setDirectionForward(){
 	turnOffMotors();
-	digitalWrite(_LeftMotorDirectionPin, 0);
-	digitalWrite(_RightMotorDirectionPin, 1);
+	digitalWrite(_LeftMotorDirectionPin, 1);
+	digitalWrite(_RightMotorDirectionPin, 0);
 }
 
 void movement::setDirectionBackward(){
 	turnOffMotors();
-	digitalWrite(_LeftMotorDirectionPin, 1);
-	digitalWrite(_RightMotorDirectionPin, 0);
+	digitalWrite(_LeftMotorDirectionPin, 0);
+	digitalWrite(_RightMotorDirectionPin, 1);
 }
 
 void movement::turnOnRightMotor(){

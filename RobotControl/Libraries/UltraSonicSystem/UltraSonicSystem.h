@@ -1,8 +1,7 @@
 // ---------------------------------------------------------------------------
-// LightSensorSystem library v1.0
+// UltraSonicSystem v1.0
 //
 // Created by Zachary Feuerstein - zfeuers1@binghamton.edu
-// http://www.github.com/zfeuers1
 //
 // The MIT License (MIT)
 //
@@ -25,22 +24,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-// History:
-//
-// 04/17/2014 v1.0 -
-//		Constructor
-//		readSensors
-//		sortSensors
-// 04/28/2014 v1.1 -
-//		calcDirection
-//		atBeacon
-//
 // ---------------------------------------------------------------------------
 
-
-#ifndef LightSensorSystem_h
-#define LightSensorSystem_h
+#ifndef UltraSonicSystem_h
+#define UltraSonicSystem_h
 
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include <Arduino.h>
@@ -51,34 +38,22 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "NewPing/NewPing.h"
 
-class LightSensorSystem{
+class UltraSonicSystem
+{
+public:
+	UltraSonicSystem(uint8_t TPL, uint8_t EPL, uint8_t TPR, uint8_t EPR, uint8_t TPF, uint8_t EPF, int maxDistance);
+	void getDistances();
+	
+	NewPing leftSensor;
+	NewPing rightSensor;
+	NewPing frontSensor;
 
-	public:
-		LightSensorSystem(uint8_t LightSensorFrontLeftPin, uint8_t LightSensorFrontRightPin,
-						uint8_t LightSensorBackLeftPin, uint8_t LightSensorBackRightPin);
-		void readSensors();
-		int calcDirection();
-		bool atBeacon();
-		void sortSensors();
-	private:
-		int FrontRightSensor;
-		int FrontLeftSensor;
-		int BackRightSensor;
-		int BackLeftSensor;
-		int SensorArray[4];
-
-		uint8_t _LightSensorFrontLeftPin;
-		uint8_t _LightSensorFrontRightPin;
-		uint8_t _LightSensorBackLeftPin;
-		uint8_t _LightSensorBackRightPin;
-
-		uint8_t sensor1;
-		uint8_t sensor2;
-		uint8_t sensor3;
-		uint8_t sensor4;
-
-		int sensorMaxConst;
+	float distanceRight;
+	float distanceLeft;
+	float distanceFront;
 };
+
 
 #endif

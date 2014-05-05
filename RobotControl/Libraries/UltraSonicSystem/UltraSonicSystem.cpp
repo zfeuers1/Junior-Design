@@ -1,8 +1,7 @@
 // ---------------------------------------------------------------------------
-// LightSensorSystem library v1.0
+// UltraSonicSystem library v1.0
 //
 // Created by Zachary Feuerstein - zfeuers1@binghamton.edu
-// http://www.github.com/zfeuers1
 //
 // The MIT License (MIT)
 //
@@ -26,59 +25,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-// History:
-//
-// 04/17/2014 v1.0 -
-//		Constructor
-//		readSensors
-//		sortSensors
-// 04/28/2014 v1.1 -
-//		calcDirection
-//		atBeacon
-//
+// See "UltraSonicSystem.h" for syntax, version history and more.
 // ---------------------------------------------------------------------------
+#include "Arduino.h"
+#include "UltraSonicSystem.h"
+#include "NewPing.h"
 
 
-#ifndef LightSensorSystem_h
-#define LightSensorSystem_h
+UltraSonicSystem::UltraSonicSystem(uint8_t TPL, uint8_t EPL, uint8_t TPR, uint8_t EPR, uint8_t TPF, uint8_t EPF, int maxDistance){
 
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include <Arduino.h>
-#else
-	#include <WProgram.h>
-	#include <pins_arduino.h>
-#endif
+	NewPing lSonar(TPL,EPL,maxDistance);
+	leftSensor = lSonar;
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
+	NewPing rSonar(TPR,EPR,maxDistance);
+	rightSensor = rSonar;
 
-class LightSensorSystem{
+	NewPing fSonar(TPF,EPF, maxDistance);
+	frontSensor = fSonar;
+}
 
-	public:
-		LightSensorSystem(uint8_t LightSensorFrontLeftPin, uint8_t LightSensorFrontRightPin,
-						uint8_t LightSensorBackLeftPin, uint8_t LightSensorBackRightPin);
-		void readSensors();
-		int calcDirection();
-		bool atBeacon();
-		void sortSensors();
-	private:
-		int FrontRightSensor;
-		int FrontLeftSensor;
-		int BackRightSensor;
-		int BackLeftSensor;
-		int SensorArray[4];
+void UltraSonicSystem::getDistances(){
 
-		uint8_t _LightSensorFrontLeftPin;
-		uint8_t _LightSensorFrontRightPin;
-		uint8_t _LightSensorBackLeftPin;
-		uint8_t _LightSensorBackRightPin;
+	delay(50);                      // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
+    unsigned int uS = leftSensor.ping(); // Send ping, get ping time in microseconds (uS).
+    Serial.print("Distance: ");
+    distanceLeft = uS / US_ROUNDTRIP_CM;
+    distanceLeft = .393701 * distanceLeft; //inches
+    delay(50);
+    unsigned int uS2 = rightSensor.ping(); // Send ping, get ping time in microseconds (uS).
+    Serial.print("Distance: ");
+    distanceRight = uS2 / US_ROUNDTRIP_CM;
+    distanceRight = .393701 * distanceRight;
+    delay(50);
+    unsigned int uS3 = frontSensor.ping(); // Send ping, get ping time in microseconds (uS).
+    Serial.print("Distance: ");
+    distanceFront = uS3 / US_ROUNDTRIP_CM;
+    distanceFront = .393701 * distanceFront;
 
-		uint8_t sensor1;
-		uint8_t sensor2;
-		uint8_t sensor3;
-		uint8_t sensor4;
-
-		int sensorMaxConst;
-};
-
-#endif
+}
