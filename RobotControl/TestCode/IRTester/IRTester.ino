@@ -3,34 +3,44 @@
 
 void setup()
 {
-  Serial1.begin(300); //set IR comm baud rate
+  Serial2.begin(300); //set IR comm baud rate
   Serial.begin(9600); //set print to screen baud rate
   pinMode(13, OUTPUT); //set up pin 13 as pwm pin
-  tone(13, 38000); //set square wave frequency of 38 KHz
+   //set square wave frequency of 38 KHz
+  //pinMode(50,OUTPUT);
 }
 
 int r;
 int z = 129;
 void loop()
 {
-
-  if(Serial1.available() > 0)
+  //noTone(13);
+  //delay(100);
+  if(Serial2.available() > 0)
   {
-  
-    Serial.println("Something");
-    r = Serial1.read();
-    z = ~r;
-    Serial1.write(z);
+    r = Serial2.read();
     Serial.println(r);
-    Serial.println(z);
-    delay(1000);
+    /*if(r>=1){
+      
+        //Serial.println("Something");
+        //Serial.println(r, DEC);
+        z = ~r;
+        tone(13, 38000, 50);
+        Serial2.write(z);
+        //Serial.println(z);
+        noTone(13);
+        delay(1000);
+    }else{
+      noTone(13);
+      //Serial.println("Nothing");
+    }
+    */
   }
   else
   {
-  
-    Serial.println("Nothing");
-    
+    //noTone(13);
+    //Serial.println("Nothing");
   }
+ 
   
-
 }

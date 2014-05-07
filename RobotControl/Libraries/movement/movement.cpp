@@ -74,7 +74,7 @@ movement::movement(uint8_t RightMotorDirectionPin, uint8_t RightMotorEnablePin,
 	QuadL = 0;
 	lastQuadR = 0;
 	lastQuadL = 0;
-	distConstTurn = 1;//change later
+	distConstTurn = 10;//change later
 	distConstStraight = 100;//change later
 
 }
@@ -159,6 +159,8 @@ void movement::moveAtSameRate(bool interrupt){
 
 		lastQuadL = QuadL;
 		lastQuadR = QuadR;
+		
+
 
 	}else{
 		turnOffMotors();

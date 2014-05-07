@@ -44,7 +44,7 @@
 #define LMQA 24
 #define LMQB 26
 //
-#define Speed 90
+#define Speed 100
 //
 movement Robot(RMD, RME, RMQA, RMQB, LMD, LME, LMQA, LMQB, Speed);
 //
@@ -97,21 +97,35 @@ void setup(){
   Serial.begin(9600);//set up for printing to console
   Serial2.begin(300);//set baud rate of Serial2 port for IR communication
 }
+
+
+
 void loop(){
   
   //-----------------------------------------------------
   // Wait until right button is pressed to begin
   //
+  
+  bool off = true;
+  
+  while(off){
+    PushButtons.readIfPressed();
+    off = PushButtons.Right;
+  }
+  
   bool start = false;
   while(!start){
     PushButtons.readIfPressed();
     start = PushButtons.Right;
-  }
+    Serial.println(start);
+  } 
+  Serial.println("broke out;");
   //
   //-----------------------------------------------------
   //-----------------------------------------------------
   // Wait until pen is lifted to begin game
   //
+  /*
   bool inPen = true;
   float lastDistanceFront;
   USSensors.getDistances();
@@ -123,27 +137,97 @@ void loop(){
       inPen = false;
     }
   }
+  */
+  
   //
   //-----------------------------------------------------
   //-----------------------------------------------------
   // Play game for 3 min.
   unsigned long startTime = millis();
   unsigned long time = 0;
+  bool interrupt = true;
+  int gameTime = 0;
   
-  while((time - startTime) < 180000){//180000 ms = 3 min
+  Robot.setDirectionForward();
+  
+  Serial.println("about to start game");
+  while(gameTime < 180000){//180000 ms = 3 min
     //-----------------------------------------------------
     // Game loop
+      Serial.println("\nPlaying game");
+      bool atTower = false;
+      atTower = LSensors.atBeacon();
+      
+      bool atObstacle = false;
+      USSensors.getDistances();
+      
+      if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4.5)){
+        atObstacle = true;
+      }
+      
+      interrupt = atObstacle | atTower;
+    
+      if(!interrupt){
+        Serial.println("About to go");
+        Robot.goXinches(1);
+      }
+      
+      if(interrupt){
+        //---------------------------------------------------
+        // Check if at beacon and if so try to capture it
+        //
+        if(atTower){
+          for(int i=0; i< 4; i++){// Try to capture 3 times 
+      
+            if(IR.isRecieving()){
+              IR.read();
+              IR.write();
+            }else{
+              //Robot.adjust();
+            }
+      
+          }
+          //Robot.moveAwayFromBeacon();
+         }
+        //
+        //---------------------------------------------------
+        // Check if at obstacle and avoid it
+        // 
+        else if(atObstacle){
+            
+          delay(500);
+          Robot.setDirectionBackward();
+          Robot.goXinches(1);
+          delay(500);
+          Robot.turnXdegrees(45);
+          delay(3000);
+          Robot.setDirectionForward();
+        //
+        }
+      
+      }
+      //---------------------------------------------------
+      // Calculate what direction the beacon is and turn to it
+      //
+      /*
+      int degree;
+      degree = LSensors.calcDirection();
+      
+      Robot.turnXdegrees(degree);
+      */
+      
+      //---------------------------------------------------    
   
-  
-  
-  
-  
+        
   
   
     //
     //-----------------------------------------------------
     time = millis();
+    gameTime = (time - startTime);
   }
+  
+  
   //
   //-----------------------------------------------------
 }
