@@ -44,10 +44,9 @@ class IRCommSystem
 {
 public:
 	IRCommSystem(uint8_t modPin);
-	bool isRecieving();
-	void read();
-	void write();
-	bool capture();
+	void SetupSerial();
+	void EndSerial();
+	
 private:
 	unsigned char recievedIR;
 	unsigned char transmitIR;

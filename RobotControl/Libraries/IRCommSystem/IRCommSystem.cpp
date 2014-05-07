@@ -34,43 +34,70 @@ IRCommSystem::IRCommSystem(uint8_t modPin){
 
 	pinMode(modPin, OUTPUT);
 	_modPin = modPin;
-	tone(_modPin, 38000);
 }
 
-bool IRCommSystem::isRecieving(){
+void IRCommSystem::SetupSerial(){
 
-	if(Serial2.available() > 0){
+	//Stop Carrier
+   	noTone(_modPin);
+  
+  	//Set as output
+	pinMode(_modPin, OUTPUT);
+  
+  	//Set low
+  	digitalWrite(_modPin, LOW);
 
-		Serial.println("Recieving");
-		return true;
-	}else{
-		Serial.println("Not Recieving");
-		return false;
-	}
+	Serial2.begin(300);
+}
+
+void IRCommSystem::EndSerial(){
+
+
+	//Stop Carrier
+   	noTone(_modPin);
+  
+  	//Set as output
+	pinMode(_modPin, OUTPUT);
+  
+  	//Set low
+  	digitalWrite(_modPin, LOW);
+
+	Serial2.end();
 
 }
 
-void IRCommSystem::read(){
-	recievedIR = Serial2.read();
-	Serial.print("\nRead IR: ");
-	Serial.print(recievedIR);
+
+void serialEvent2(void)
+{
+  byte data =0;
+  unsigned long StartTime =millis();
+
+  //Read data
+  if (Serial2.available() > 0)
+  {
+    data = Serial2.read();
+
+    //Start Carrier
+    tone(13, 38000);
+  
+    //If serial data is available, sent the bitwise inversion of it back out 
+    Serial2.write(~data);
+
+    //Wait for send to complete
+    while ((millis() - StartTime) <50){}
+
+    //Stop Carrier
+   	noTone(13);
+  
+  	//Set as output
+	pinMode(13, OUTPUT);
+  
+  	//Set low
+  	digitalWrite(13, LOW);
+  }
+
+  //Clear the read buffer
+  if (Serial2.available() > 0) 
+    Serial2.read();
 }
 
-void IRCommSystem::write(){
-	transmitIR = ~recievedIR;
-	Serial2.write(transmitIR);
-	Serial.print("\nTransmit IR: ");
-	Serial.print(transmitIR);
-}
-
-bool IRCommSystem::capture(){
-
-	if(isRecieving()){
-		read();
-		write();
-		return true;
-	}else{
-		return false;
-	}
-
-}

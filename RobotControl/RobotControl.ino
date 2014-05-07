@@ -177,16 +177,13 @@ void loop(){
         // Check if at beacon and if so try to capture it
         //
         if(atTower){
-          for(int i=0; i< 4; i++){// Try to capture 3 times 
-      
-            if(IR.isRecieving()){
-              IR.read();
-              IR.write();
-            }else{
-              //Robot.adjust();
-            }
-      
-          }
+         
+         
+          
+          IR.SetupSerial();
+         
+          
+          IR.EndSerial();
           //Robot.moveAwayFromBeacon();
          }
         //
