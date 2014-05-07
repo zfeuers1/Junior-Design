@@ -95,7 +95,7 @@ IRCommSystem IR(modPin);
 //
 void setup(){
   Serial.begin(9600);//set up for printing to console
-  Serial2.begin(300);//set baud rate of Serial2 port for IR communication
+  //Serial2.begin(300);//set baud rate of Serial2 port for IR communication
 }
 
 
@@ -150,7 +150,7 @@ void loop(){
   
   Robot.setDirectionForward();
   
-  Serial.println("about to start game");
+  Serial.println("\nabout to start game");
   while(gameTime < 180000){//180000 ms = 3 min
     //-----------------------------------------------------
     // Game loop
@@ -166,11 +166,6 @@ void loop(){
       }
       
       interrupt = atObstacle | atTower;
-    
-      if(!interrupt){
-        Serial.println("About to go");
-        Robot.goXinches(1);
-      }
       
       if(interrupt){
         //---------------------------------------------------
@@ -179,10 +174,10 @@ void loop(){
         if(atTower){
          
          
-          
-          IR.SetupSerial();
-         
-          
+          for(int i=0; i<4;i++){
+             IR.SetupSerial();
+             delay(1000);
+          }
           IR.EndSerial();
           //Robot.moveAwayFromBeacon();
          }
@@ -202,7 +197,7 @@ void loop(){
         //
         }
       
-      }
+      }else{
       //---------------------------------------------------
       // Calculate what direction the beacon is and turn to it
       //
@@ -215,9 +210,14 @@ void loop(){
       
       //---------------------------------------------------    
   
+  
+        Robot.setDirectionForward();
+        Serial.println("\nAbout to go");
+        Robot.goXinches(1);
+      
         
   
-  
+      }
     //
     //-----------------------------------------------------
     time = millis();
