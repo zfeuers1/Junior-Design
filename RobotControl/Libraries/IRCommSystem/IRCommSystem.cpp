@@ -76,7 +76,7 @@ void serialEvent2(void)
   if (Serial2.available() > 0)
   {
     data = Serial2.read();
-
+    
     //Start Carrier
     tone(13, 38000);
   

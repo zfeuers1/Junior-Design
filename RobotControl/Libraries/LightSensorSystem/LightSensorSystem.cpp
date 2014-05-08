@@ -67,9 +67,13 @@ LightSensorSystem::LightSensorSystem(uint8_t LightSensorFrontLeftPin, uint8_t Li
 
 void LightSensorSystem::readSensors(){
 	FrontRightSensor = analogRead(_LightSensorFrontRightPin);
+	analogRead(_LightSensorFrontRightPin);//dummy
 	FrontLeftSensor = analogRead(_LightSensorFrontLeftPin);
-	BackLeftSensor = analogRead(_LightSensorBackLeftPin);
+	analogRead(_LightSensorFrontRightPin);//dummy
+	BackLeftSensor = 0;//analogRead(_LightSensorBackLeftPin);
+	analogRead(_LightSensorFrontRightPin);//dummy
 	BackRightSensor = analogRead(_LightSensorBackRightPin);
+	analogRead(_LightSensorFrontRightPin);//dummy
 
 	SensorArray[0] = FrontRightSensor;
 	SensorArray[1] = FrontLeftSensor;
