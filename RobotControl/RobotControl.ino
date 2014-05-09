@@ -45,7 +45,7 @@
 #define LMQA 24
 #define LMQB 26
 //
-#define Speed 100
+#define Speed 170
 //
 movement Robot(RMD, RME, RMQA, RMQB, LMD, LME, LMQA, LMQB, Speed);
 //
@@ -61,7 +61,7 @@ movement Robot(RMD, RME, RMQA, RMQB, LMD, LME, LMQA, LMQB, Speed);
 #define FTP 6
 #define FEP 7
 //
-#define maxDistance 200
+#define maxDistance 150
 //
 UltraSonicSystem USSensors(LTP, LEP, RTP, REP, FTP, FEP, maxDistance);
 //
@@ -191,7 +191,7 @@ void loop(){
       atObstacle = false;
       USSensors.getDistances();
       
-      if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4.5)){
+      if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4)){
         atObstacle = true;
       }
       
@@ -258,7 +258,7 @@ void obstacleAvoidance(){
 
           delay(500);
           Robot.setDirectionBackward();
-          Robot.goXinches(1);
+          Robot.goXinches(2);
           delay(500);
           
           USSensors.getDistances();
@@ -276,7 +276,7 @@ void obstacleAvoidance(){
               USSensors.getDistances();
               currentDistance = USSensors.distanceLeft;
               
-                if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4.5)){
+                if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4)){
               
                   obstacleAvoidance();
                   return;
@@ -298,7 +298,7 @@ void obstacleAvoidance(){
               USSensors.getDistances();
               currentDistance2 = USSensors.distanceLeft;
               
-              if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4.5)){
+              if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4)){
               
                 obstacleAvoidance();
                 return;
@@ -323,7 +323,7 @@ void obstacleAvoidance(){
               USSensors.getDistances();
               currentDistanceR = USSensors.distanceRight;
               
-                if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4.5)){
+                if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4)){
               
                   obstacleAvoidance();
                   return;
@@ -345,7 +345,7 @@ void obstacleAvoidance(){
               USSensors.getDistances();
               currentDistanceR2 = USSensors.distanceRight;
               
-              if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4.5)){
+              if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 4)){
               
                 obstacleAvoidance();
                 return;

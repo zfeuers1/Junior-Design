@@ -4,8 +4,7 @@ Zachary Feuerstein
 
 */
 
-#define LSI A0
-#define RSI A1
+
 #define FSI A2
 
 int LeftSensor = 0;
@@ -14,14 +13,14 @@ int FrontSensor = 0;
 
 void setup(){
   Serial.begin(9600);
-  pinMode(LSI, INPUT);
+  pinMode(FSI, INPUT);
   //pinMode(RSI, INPUT);
   //pinMode(FSI, INPUT);
 }
 
 void loop(){
 
-  LeftSensor = analogRead(LSI);//make sure you want will be outputing voltage from sensor
+  LeftSensor = analogRead(FSI);//make sure you want will be outputing voltage from sensor
   //RightSensor = analogRead(RSI);//between 5mv to 5v or this wont work
   //FrontSensor = analogRead(FSI);
   
