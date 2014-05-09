@@ -74,7 +74,7 @@ movement::movement(uint8_t RightMotorDirectionPin, uint8_t RightMotorEnablePin,
 	QuadL = 0;
 	lastQuadR = 0;
 	lastQuadL = 0;
-	distConstTurn = 1.7;//change later
+	distConstTurn = 1.53;//change later
 	distConstStraight = 100;//change later
 
 }
