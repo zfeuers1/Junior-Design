@@ -95,7 +95,6 @@ IRCommSystem IR(modPin);
 // Main Robot Control
 //
 
-bool atObstacle = false;
 
 void setup(){
   Serial.begin(9600);//set up for printing to console
@@ -163,7 +162,7 @@ void loop(){
       bool atTower = false;
       atTower = LSensors.atBeacon();
       
-      atObstacle = false;
+      bool atObstacle = false;
       USSensors.getDistances();
       
       if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 5.5)){
@@ -256,7 +255,6 @@ void obstacleAvoidance(){
   delay(500);
   Robot.setDirectionForward();
   Robot.goXinches(1); 
-  atObstacle = false;
 }
 //
 //----------------------------------------------------------------------------
