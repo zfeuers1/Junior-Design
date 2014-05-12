@@ -164,6 +164,7 @@ void loop(){
       
       bool atObstacle = false;
       USSensors.getDistances();
+      PushButtons.readIfPressed();
       
       if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 5.5)){
         atObstacle = true;
