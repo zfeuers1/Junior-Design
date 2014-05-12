@@ -42,7 +42,7 @@ void IRCommSystem::SetupSerial(){
    	noTone(_modPin);
   
   	//Set as output
-	pinMode(_modPin, OUTPUT);
+	 pinMode(_modPin, OUTPUT);
   
   	//Set low
   	digitalWrite(_modPin, LOW);

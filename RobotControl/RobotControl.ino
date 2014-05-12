@@ -127,7 +127,7 @@ void loop(){
   //-----------------------------------------------------
   // Wait until pen is lifted to begin game
   //
-  
+  /*
   bool inPen = true;
   float lastDistanceFront;
   USSensors.getDistances();
@@ -140,7 +140,7 @@ void loop(){
     }
   }
   
-  
+  */
   //
   //-----------------------------------------------------
   //-----------------------------------------------------
@@ -168,7 +168,7 @@ void loop(){
       
       if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 5.5)){
         atObstacle = true;
-      }else if(PushButtons.Right)// || PushButtons.Middle || PushButtons.Left)
+      }else if(PushButtons.Right || PushButtons.Middle || PushButtons.Left)
       {
         atObstacle = true;
       }
@@ -232,7 +232,7 @@ void obstacleAvoidance(){
           
   delay(500);
   Robot.setDirectionBackward();
-  Robot.goXinches(1.5);
+  Robot.goXinches(1.8);
   delay(500);
           
   USSensors.getDistances();
