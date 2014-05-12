@@ -241,6 +241,8 @@ bool LightSensorSystem::atBeacon(){
 
 	if((FrontLeftSensor + FrontRightSensor) > sensorMaxConst){
 		return true;
+	}else if((FrontRightSensor > 750) || (FrontLeftSensor > 750) || (BackLeftSensor > 750) || (BackRightSensor > 750)){
+		return true;
 	}
 	else{
 		return false;

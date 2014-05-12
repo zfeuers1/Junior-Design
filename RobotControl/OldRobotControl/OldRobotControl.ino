@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// RobotControl v1.4
+// RobotControl v1.3
 //
 // Created by Zachary Feuerstein - zfeuers1@binghamton.edu
 //
@@ -99,6 +99,7 @@ bool atObstacle = false;
 
 void setup(){
   Serial.begin(9600);//set up for printing to console
+  //Serial2.begin(300);//set baud rate of Serial2 port for IR communication
 }
 
 
@@ -153,12 +154,36 @@ void loop(){
   
   Robot.setDirectionForward();
   
-  Serial.println("\nabout to start game");  
+  Serial.println("\nabout to start game");
+  
+  //---------------------------------------------------
+  // Calculate what direction the beacon is and turn to it
+  //
+  //    
+    int degree;
+    degree = LSensors.calcDirection();
+    Serial.println("Turn this degree: ");
+    Serial.println(degree);
+    Robot.turnXdegrees(degree);
+  //   
+  //    
+  //---------------------------------------------------    
+  
   
   while(gameTime < 180000){//180000 ms = 3 min
     //-----------------------------------------------------
     // Game loop
       Serial.println("\nPlaying game");
+
+      LSensors.readSensors();
+      Serial.print("\nLeftBackSensor: ");
+      Serial.println(LSensors.BackLeftSensor);
+      Serial.print("\nLeftFrontSensor: ");
+      Serial.println(LSensors.FrontLeftSensor);
+      Serial.print("\nRightBackSensor: ");
+      Serial.println(LSensors.BackRightSensor);
+      Serial.print("\nRightFrontSensor: ");
+      Serial.println(LSensors.FrontRightSensor);
 
       bool atTower = false;
       atTower = LSensors.atBeacon();
@@ -167,9 +192,6 @@ void loop(){
       USSensors.getDistances();
       
       if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 5.5)){
-        atObstacle = true;
-      }else if(PushButtons.Right)// || PushButtons.Middle || PushButtons.Left)
-      {
         atObstacle = true;
       }
       
@@ -180,37 +202,45 @@ void loop(){
         // Check if at beacon and if so try to capture it
         //
         if(atTower){
-          CaptureBeacon();
+         
+         
+          for(int i=0; i<4;i++){
+             IR.SetupSerial();
+             delay(1000);
+          }
+          IR.EndSerial();
+          //Robot.moveAwayFromBeacon();
+          
+          //---------------------------------------------------
+          // Calculate what direction the beacon is and turn to it
+          //
+          //    
+            int degree;
+            degree = LSensors.calcDirection();
+            Serial.println("Turn this degree: ");
+            Serial.println(degree);
+            Robot.turnXdegrees(degree);
+          //   
+          //    
+          //---------------------------------------------------  
+          
          }
         //
         //---------------------------------------------------
         // Check if at obstacle and avoid it
         // 
         else if(atObstacle){
+            
            obstacleAvoidance();
-        }
-        //
-        //-----------------------------------------------------
+      }
+    //
+    //-----------------------------------------------------
       }else{
 
         Robot.setDirectionForward();
         Serial.println("\nAbout to go");
         Robot.goXinches(1);
-      }
-    
-    //---------------------------------------------------
-    // Calculate what direction the beacon is and turn to it
-    //
-    //    
-       int degree;
-       degree = LSensors.calcDirection();
-       Serial.println("Turn this degree: ");
-       Serial.println(degree);
-       Robot.turnXdegrees(degree);
-    //   
-    //    
-    //---------------------------------------------------  
-    
+    }
     
     time = millis();
     gameTime = (time - startTime);
@@ -222,78 +252,113 @@ void loop(){
 }
 //
 //----------------------------------------------------------------------------
-//
-// Function to avoid obstacles
+
 
 void obstacleAvoidance(){
 
-  float distanceOnRight;
-  float distanceOnLeft;
+          delay(500);
+          Robot.setDirectionBackward();
+          Robot.goXinches(1.5);
+          delay(500);
           
-  delay(500);
-  Robot.setDirectionBackward();
-  Robot.goXinches(1.5);
-  delay(500);
+          USSensors.getDistances();
           
-  USSensors.getDistances();
+          if(USSensors.distanceRight >= USSensors.distanceLeft){
+            
+            Robot.turnXdegrees(90);
+            USSensors.getDistances();
+            
+            float obstacleDistance = USSensors.distanceLeft;
+            float currentDistance = obstacleDistance;
+            while(currentDistance < (obstacleDistance + 10)){
+              Robot.setDirectionForward();
+              Robot.goXinches(1);    
+              USSensors.getDistances();
+              currentDistance = USSensors.distanceLeft;
+              
+                if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 6.5)){
+              
+                  obstacleAvoidance();
+                  return;
+                }
+              
+            }
+            
+            Robot.goXinches(1); 
+            Robot.turnXdegrees(-90);
+            
+            float obstacleDistance2 = USSensors.distanceLeft;
+            float currentDistance2 = obstacleDistance2;
+            
+            while(currentDistance2 < (obstacleDistance2 + 10)){
+            
+              Robot.setDirectionForward();
+              Robot.goXinches(1);    
+              
+              USSensors.getDistances();
+              currentDistance2 = USSensors.distanceLeft;
+              
+              if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 6.5)){
+              
+                obstacleAvoidance();
+                return;
+              }
+            }
+            
+            Robot.goXinches(1); 
+            Robot.turnXdegrees(-90);
+  //--------------------------------------------------------
+  // If distance on the left is greater than the distance on the right  
+          }else{
+            
+            Robot.turnXdegrees(-90);
+            
+            USSensors.getDistances();
+            
+            float obstacleDistanceR = USSensors.distanceRight;
+            float currentDistanceR = obstacleDistanceR;
+            while(currentDistanceR < (obstacleDistanceR + 10)){
+              Robot.setDirectionForward();
+              Robot.goXinches(1);    
+              USSensors.getDistances();
+              currentDistanceR = USSensors.distanceRight;
+              
+                if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 6.5)){
+              
+                  obstacleAvoidance();
+                  return;
+                }
+              
+            }
+            
+            Robot.goXinches(1); 
+            Robot.turnXdegrees(90);
+            
+            float obstacleDistanceR2 = USSensors.distanceRight;
+            float currentDistanceR2 = obstacleDistanceR2;
+            
+            while(currentDistanceR2 < (obstacleDistanceR2 + 10)){
+            
+              Robot.setDirectionForward();
+              Robot.goXinches(1);    
+              
+              USSensors.getDistances();
+              currentDistanceR2 = USSensors.distanceRight;
+              
+              if((USSensors.distanceFront > 0) && (USSensors.distanceFront < 6.5)){
+              
+                obstacleAvoidance();
+                return;
+              }
+            }
+            
+            Robot.goXinches(1); 
+            Robot.turnXdegrees(90);            
+           
+          }
           
-  if(USSensors.distanceRight != 0){
-    distanceOnRight = USSensors.distanceRight;
-  }else{
-    distanceOnRight = 400;
+  //-----------------------------------------------------------        
+          delay(500);
+          Robot.setDirectionForward();
+          atObstacle = false;
   }
-  if(USSensors.distanceLeft != 0){
-    distanceOnLeft = USSensors.distanceLeft;
-  }else{
-    distanceOnLeft = 400;
-  }
-          
-  if(distanceOnRight >= distanceOnLeft){
-    Robot.turnXdegrees(90);          
-  }else{
-    Robot.turnXdegrees(90);
-  }      
-  delay(500);
-  Robot.setDirectionForward();
-  Robot.goXinches(1); 
-  atObstacle = false;
-}
-//
-//----------------------------------------------------------------------------
-//
-// Function to capture a beacon
-
-void CaptureBeacon(){
-  
-  if((LSensors.FrontLeftSensor + LSensors.FrontRightSensor) < 1400){
-    if(LSensors.FrontRightSensor >= 750){
-      Robot.turnXdegrees(45);
-    }else if(LSensors.FrontLeftSensor >= 750){
-      Robot.turnXdegrees(-45);
-    }else if(LSensors.BackLeftSensor >= 750){
-      Robot.turnXdegrees(-135);
-    }else if(LSensors.BackRightSensor >= 750){
-      Robot.turnXdegrees(135);
-    }else{
-      //assume in front
-    }
-  }
-
-  
-  int angle = 20;
-  for(int i=0; i<4;i++){
-    IR.SetupSerial();
-    delay(1000 + i);
-    Robot.turnXdegrees(angle);
-    angle = angle * -1;
-    angle = angle - 5;
-  }
-  IR.EndSerial();
-          
-  Robot.setDirectionBackward();
-  Robot.goXinches(1.5);
-  Robot.turnXdegrees(180);
-  Robot.setDirectionForward();
-}  
-//
-//----------------------------------------------------------------------------
