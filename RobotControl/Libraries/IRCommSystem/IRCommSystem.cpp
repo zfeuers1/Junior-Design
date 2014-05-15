@@ -69,11 +69,11 @@ void IRCommSystem::EndSerial(){
 
 void serialEvent2(void)
 {
-  byte data =0;
-  unsigned long StartTime =millis();
-
+  byte data = 0;
+  unsigned long StartTime = millis();
+  
   //Read data
-  if (Serial2.available() > 0)
+  while (Serial2.available() > 0)
   {
     data = Serial2.read();
     
@@ -90,11 +90,12 @@ void serialEvent2(void)
    	noTone(13);
   
   	//Set as output
-	pinMode(13, OUTPUT);
+	   pinMode(13, OUTPUT);
   
   	//Set low
   	digitalWrite(13, LOW);
   }
+
 
   //Clear the read buffer
   if (Serial2.available() > 0) 

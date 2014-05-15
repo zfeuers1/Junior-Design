@@ -127,7 +127,7 @@ void loop(){
   //-----------------------------------------------------
   // Wait until pen is lifted to begin game
   //
-  /*
+  
   bool inPen = true;
   float lastDistanceFront;
   USSensors.getDistances();
@@ -140,7 +140,7 @@ void loop(){
     }
   }
   
-  */
+  
   //
   //-----------------------------------------------------
   //-----------------------------------------------------
@@ -180,6 +180,7 @@ void loop(){
         // Check if at beacon and if so try to capture it
         //
         if(atTower){
+          delay(3000);
           CaptureBeacon();
          }
         //
@@ -282,6 +283,7 @@ void CaptureBeacon(){
   int angle = 20;
   for(int i=0; i<4;i++){
     IR.SetupSerial();
+    comm();
     delay(1000 + i);
     Robot.turnXdegrees(angle);
     angle = angle * -1;
@@ -296,3 +298,44 @@ void CaptureBeacon(){
 }  
 //
 //----------------------------------------------------------------------------
+
+
+void comm(){
+
+  byte data = 0;
+  unsigned long StartTime = millis();
+  
+  //Read data
+  while (Serial2.available() > 0)
+  {
+    data = Serial2.read();
+    
+    //Start Carrier
+    tone(13, 38000);
+  
+    //If serial data is available, sent the bitwise inversion of it back out 
+    Serial2.write(~data);
+
+    //Wait for send to complete
+    while ((millis() - StartTime) <50){}
+    unsigned long StartTime = millis();
+
+    //Stop Carrier
+    noTone(13);
+  
+    //Set as output
+    pinMode(13, OUTPUT);
+  
+  	//Set low
+    digitalWrite(13, LOW);
+    if (Serial2.available() > 0) 
+    Serial2.read();
+  
+  }
+
+
+  //Clear the read buffer
+  if (Serial2.available() > 0) 
+    Serial2.read();
+
+}
